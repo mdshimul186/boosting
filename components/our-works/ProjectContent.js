@@ -145,14 +145,14 @@ export default function ProjectContent() {
 					<span style={{cursor:"pointer"}} onClick={()=>handleClose()} className='close'>x</span>
 				</div>
 				<DialogContent>
-					<div className='row'>
+					<div className='row' >
 						<div className='col-md-6 col-sm-12'>
 							<div><label>Category :</label><strong style={{ marginLeft: "10px", textTransform: "uppercase" }}>{selectedPortfolio && selectedPortfolio.category}</strong></div>
 							<p>{selectedPortfolio && selectedPortfolio.shortDescription}</p>
 							<p>{selectedPortfolio && selectedPortfolio.longDescription}</p>
 						</div>
-						<div className='col-md-6 col-sm-12'>
-							<Slider portfolioImages={selectedPortfolio && selectedPortfolio.portfolioImages} />
+						<div  className='col-md-6 col-sm-12'>
+							<Slider  portfolioImages={selectedPortfolio && selectedPortfolio.portfolioImages} />
 						</div>
 					</div>
 				</DialogContent>

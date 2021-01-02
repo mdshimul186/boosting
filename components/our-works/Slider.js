@@ -4,7 +4,7 @@ import { Carousel } from 'react-responsive-carousel';
 function Slider({portfolioImages}) {
     return (
         <div>
-            <Carousel>
+            <Carousel >
             {
                 portfolioImages.map((p,index)=>{
                     return(

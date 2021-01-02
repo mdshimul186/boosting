@@ -8393,3 +8393,10 @@ transition: 1s ease;
 .modal-70w{
   width: 70vw !important;
 }
+.carousel .slide img {
+  width: 100% !important;
+  vertical-align: top !important;
+  border: 0 !important;
+  height: 396px !important;
+  object-fit: contain !important;
+}
