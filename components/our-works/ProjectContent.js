@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react'
 import * as Icon from 'react-feather'
 import styles from './ourworks.module.css'
 import axios from 'axios'
-import {Modal} from 'react-bootstrap'
+// import {Modal} from 'react-bootstrap'
 import Slider from './Slider'
 import ClipLoader from "react-spinners/ClipLoader";
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function ProjectContent() {
 	const [category, setCategory] = useState('all')
@@ -12,16 +18,16 @@ export default function ProjectContent() {
 	const [selectedPortfolio, setSelectedPortfolio] = useState(null)
 	const [show, setShow] = useState(false);
 
-	const [page, setPage]  =useState(0)
+	const [page, setPage] = useState(0)
 	const [showLoadButton, setShowLoadButton] = useState(true)
 
 	let [loading, setLoading] = useState(false);
 
 	const handleClose = () => setShow(false);
-	const handleShow = (portfolio) =>{
+	const handleShow = (portfolio) => {
 		setSelectedPortfolio(portfolio)
 		setShow(true);
-	} 
+	}
 
 	const fetchCategory = (cat) => {
 		setLoading(true)
@@ -29,12 +35,12 @@ export default function ProjectContent() {
 			.then(res => {
 				setPortfolios(res.data.portfolio)
 				setPage(1)
-				if(res.data.portfolio.length !== 20){
+				if (res.data.portfolio.length !== 20) {
 					setShowLoadButton(false)
 				}
 				setLoading(false)
 			})
-			.catch(err=>{
+			.catch(err => {
 				setLoading(false)
 				err && err.response && alert(err.response.data.error)
 			})
@@ -46,16 +52,16 @@ export default function ProjectContent() {
 				.then(res => {
 					setPortfolios(res.data.portfolio)
 					setPage(1)
-					if(res.data.portfolio.length !== 20){
+					if (res.data.portfolio.length !== 20) {
 						setShowLoadButton(false)
 					}
 					setLoading(false)
 				})
-				.catch(err=>{
+				.catch(err => {
 					setLoading(false)
 					err && err.response && alert(err.response.data.error)
 				})
-				
+
 		} else if (category == 'design') {
 			fetchCategory('design')
 		} else if (category == 'development') {
@@ -65,38 +71,38 @@ export default function ProjectContent() {
 		}
 	}, [category])
 
-	const handleLoadMore=()=>{
+	const handleLoadMore = () => {
 		if (category == 'all') {
 			setLoading(true)
 			axios.get(`/portfolio/getall?page=${page}`)
 				.then(res => {
-					setPortfolios([...portfolios,...res.data.portfolio])
-					setPage(page+1)
-					if(res.data.portfolio.length !== 20){
+					setPortfolios([...portfolios, ...res.data.portfolio])
+					setPage(page + 1)
+					if (res.data.portfolio.length !== 20) {
 						setShowLoadButton(false)
 					}
 					setLoading(false)
 				})
-				.catch(err=>{
+				.catch(err => {
 					setLoading(false)
 					err && err.response && alert(err.response.data.error)
 				})
-				
-		}else{
+
+		} else {
 			setLoading(true)
 			axios.get(`/portfolio/getall?category=${cat}&&page=${page}`)
-			.then(res => {
-				setPortfolios([...portfolios,...res.data.portfolio])
-				setPage(page+1)
-				if(res.data.portfolio.length !== 20){
-					setShowLoadButton(false)
-				}
-				setLoading(false)
-			})
-			.catch(err=>{
-				setLoading(false)
-				err && err.response && alert(err.response.data.error)
-			})
+				.then(res => {
+					setPortfolios([...portfolios, ...res.data.portfolio])
+					setPage(page + 1)
+					if (res.data.portfolio.length !== 20) {
+						setShowLoadButton(false)
+					}
+					setLoading(false)
+				})
+				.catch(err => {
+					setLoading(false)
+					err && err.response && alert(err.response.data.error)
+				})
 		}
 	}
 
@@ -104,7 +110,7 @@ export default function ProjectContent() {
 	return (
 		<section className="works-area ptb-80">
 
-			<Modal  dialogClassName="modal-70w" show={show} onHide={handleClose}>
+			{/* <Modal  dialogClassName="modal-70w" show={show} onHide={handleClose}>
 		
 				<Modal.Header style={{padding:"10px"}} closeButton bsPrefix='test'>
 					<Modal.Title>Project Details</Modal.Title>
@@ -122,7 +128,36 @@ export default function ProjectContent() {
 					</div>
 				</Modal.Body>
 	
-			</Modal>
+			</Modal> */}
+
+
+			<Dialog
+				open={show}
+				onClose={handleClose}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+				
+				maxWidth='lg'
+				
+			>
+				<div className={styles.modalHeader}>
+					<h5>Project Details</h5>
+					<span style={{cursor:"pointer"}} onClick={()=>handleClose()} className='close'>x</span>
+				</div>
+				<DialogContent>
+					<div className='row'>
+						<div className='col-md-6 col-sm-12'>
+							<div><label>Category :</label><strong style={{ marginLeft: "10px", textTransform: "uppercase" }}>{selectedPortfolio && selectedPortfolio.category}</strong></div>
+							<p>{selectedPortfolio && selectedPortfolio.shortDescription}</p>
+							<p>{selectedPortfolio && selectedPortfolio.longDescription}</p>
+						</div>
+						<div className='col-md-6 col-sm-12'>
+							<Slider portfolioImages={selectedPortfolio && selectedPortfolio.portfolioImages} />
+						</div>
+					</div>
+				</DialogContent>
+
+			</Dialog>
 
 
 
@@ -149,41 +184,41 @@ export default function ProjectContent() {
 
 
 					{
-						loading ? <div style={{display:"flex",justifyContent:"center",alignItems:"center",width:"100%"}}><ClipLoader size={80} /></div>:
-						portfolios.length > 0 ? portfolios.map((portfolio, index) => {
-							return (
-								<div key={index} className="col-lg-4 col-md-6">
-									<div className="single-works">
-										<img src={portfolio.portfolioImages[0]} alt="image" className={styles.worksThumb} />
-										<span style={{cursor:"pointer"}} onClick={()=>handleShow(portfolio)} className='icon'>
-											
-												<Icon.Eye />
-										
-										</span>
+						loading ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}><ClipLoader size={80} /></div> :
+							portfolios.length > 0 ? portfolios.map((portfolio, index) => {
+								return (
+									<div key={index} className="col-lg-4 col-md-6">
+										<div className="single-works">
+											<img src={portfolio.portfolioImages[0]} alt="image" className={styles.worksThumb} />
+											<span style={{ cursor: "pointer" }} onClick={() => handleShow(portfolio)} className='icon'>
 
-										<div className="works-content">
-											{/* <h3>
+												<Icon.Eye />
+
+											</span>
+
+											<div className="works-content">
+												{/* <h3>
 												<Link href="/project-details">
 													<a>Incredible infrastructure</a>
 												</Link>
 											</h3> */}
-											<p>{portfolio.shortDescription}</p>
+												<p>{portfolio.shortDescription}</p>
+											</div>
 										</div>
 									</div>
-								</div>
 
-							)
-						}) :
-							<p>No works found</p>
+								)
+							}) :
+								<p>No works found</p>
 					}
 
 
 				</div>
-				<div style={{textAlign:"center"}}>
-				{
-				  !loading && showLoadButton && <button onClick={()=>handleLoadMore()} className={`${styles.buttonGroupWorksButton} ${styles.ourworksActive}`}>Load more</button>
-				}
-					
+				<div style={{ textAlign: "center" }}>
+					{
+						!loading && showLoadButton && <button onClick={() => handleLoadMore()} className={`${styles.buttonGroupWorksButton} ${styles.ourworksActive}`}>Load more</button>
+					}
+
 				</div>
 			</div>
 

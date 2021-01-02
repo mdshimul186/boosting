@@ -32,3 +32,9 @@ margin: 30px 0;
     object-fit: cover;
     border: 1px solid #ccc;
 }
+.modalHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
