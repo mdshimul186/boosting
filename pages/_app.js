@@ -1,10 +1,5 @@
 
-import '../static/css/bootstrap.min.css'
-
-import '../static/css/slick.css'
-import '../static/css/animate.css'
-import '../static/css/flaticon.css'
-import '../static/css/boxicons.min.css'
+import '../static/index.css'
 import 'odometer/themes/odometer-theme-default.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -21,8 +16,7 @@ import 'react-image-lightbox/style.css';
 // import '../static/styles/brink-pink-style.css'
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import '../static/styles/style.css'
-import '../static/css/responsive.css'
+
 
 
 import { Provider } from 'react-redux';
