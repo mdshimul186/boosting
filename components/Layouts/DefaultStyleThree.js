@@ -220,11 +220,11 @@ const DefaultStyleThree =()=> {
                                         </Link>                                     
                                     </li>
 
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                     <Link activeClassName="active" href="/freelancers">
                                             <a className="nav-link">Freelancers</a>
                                       </Link>                                     
-                                    </li>
+                                    </li> */}
     
                                     <li className="nav-item">
                                         <Link activeClassName="active" href="/contact">

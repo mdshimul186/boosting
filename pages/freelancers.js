@@ -15,7 +15,7 @@ class Freelancer extends React.Component {
                     </div>
                 </Placeholder>
                 <HeaderThree />
-               <Freelancers />
+               {/* <Freelancers /> */}
                
                 <Footer />
                 <GoTop scrollStepInPx="50" delayInMs="16.66" />
